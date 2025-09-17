@@ -31,14 +31,13 @@ renderer.setSize(sizes.width, sizes.height)
 
 
 //animations 
-let time = Date.now()
+const clock = new THREE.Clock()
 const tick = () => {
-const currentTime = Date.now(
-)
-const deltaTime = currentTime - time
-time = currentTime
-console.log(deltaTime)
-mesh.rotation.y += 0.001 * deltaTime
+const elapsedTime = clock.getElapsedTime()
+camera.position.y = Math.sin(elapsedTime)
+camera.position.x = Math.cos(elapsedTime)
+camera.lookAt(mesh.position)
+
 renderer.render(scene, camera)
 window.requestAnimationFrame(tick)
 }
