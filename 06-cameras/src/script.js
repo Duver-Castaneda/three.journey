@@ -12,9 +12,8 @@ const cursor = {
 window.addEventListener('mousemove', (event) =>
 {
     cursor.x = event.clientX / sizes.width - 0.5
-    cursor.y = event.clientY / sizes.height - 0.5
+    cursor.y = -(event.clientY / sizes.height - 0.5)
 
-    console.log(cursor.x)
 }
 )
 
@@ -74,6 +73,10 @@ const tick = () =>
 
     // Update objects
     //mesh.rotation.y = elapsedTime;
+camera.position.x = cursor.x * 10
+camera.position.y = cursor.y * 10
+camera.lookAt(mesh.position)
+
 
     // Render
     renderer.render(scene, camera)
