@@ -24,8 +24,8 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Sizes
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: 800,
+    height: 600
 }
 
 
