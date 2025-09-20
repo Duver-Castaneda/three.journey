@@ -13,14 +13,20 @@ const scene = new THREE.Scene()
 // Object
 //const geometry = new THREE.BoxGeometry(1, 1, 1)
 
-const positionArray = new Float32Array ([
-    0,0,0 ,
-    0,1,0,
-    1,0,0
-])
 
-const positionAtributte = new THREE.BufferAttribute(positionArray, 3)
+
+
 const geometry = new THREE.BufferGeometry()
+const count = 5000
+const positionArray = new Float32Array (count*3*3
+ )
+ for (let index = 0; index < count * 3 * 3; index++) {
+  positionArray[index] = (Math.random() -0.5)*4
+    
+ }
+
+ const positionAtributte = new THREE.BufferAttribute(positionArray, 3)
+
 geometry.setAttribute('position', positionAtributte)
 
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 , wireframe: true})
