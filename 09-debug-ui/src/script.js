@@ -24,7 +24,15 @@ const material = new THREE.MeshBasicMaterial({ color: '#ff0000' })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-Gui.add(mesh.position, 'y', -3, 3, 0.01)
+Gui .add(mesh.position, 'y').min(-3).max(3).step(0.01).name('elevation')
+Gui 
+    .add(mesh, 'visible')
+Gui 
+     .add(material, 'wireframe')
+Gui 
+     .addColor(material, 'color').onChange((value) => {
+        console.log(value.getHexString())
+     })
 
 /**
  * Sizes
