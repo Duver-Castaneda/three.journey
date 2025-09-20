@@ -9,6 +9,7 @@ import GUI from 'lil-gui'
 
 
 const Gui = new GUI()
+const debugObject = {}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -19,8 +20,12 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
+
+debugObject.color = '#ed719e'
+
+
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-const material = new THREE.MeshBasicMaterial({ color: '#ff0000' })
+const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
@@ -30,9 +35,15 @@ Gui
 Gui 
      .add(material, 'wireframe')
 Gui 
-     .addColor(material, 'color').onChange((value) => {
-        console.log(value.getHexString())
+     .addColor(debugObject, 'color').onChange(() => {
+      material.color.set(debugObject.color)
      })
+
+
+debugObject.spin = ( ) => {
+    gsap.to(mesh.rotation, {y:mesh.rotation.y + Math.PI * 2})
+}
+Gui.add(debugObject, 'spin')
 
 /**
  * Sizes
