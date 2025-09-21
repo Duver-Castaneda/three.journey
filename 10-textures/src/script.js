@@ -1,26 +1,42 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-
-const textureLoader = new THREE.TextureLoader()
+const loadingManager = new THREE.LoadingManager()
+loadingManager.onStart = () => {
+console.log('start')
+},
+loadingManager.onLoad = () => {
+    console.log('load')
+}
+loadingManager.onProgress = () => {
+    console.log('progress')
+}
+loadingManager.onError = () => {
+    console.log('error')
+}
+const textureLoader = new THREE.TextureLoader(loadingManager)
 const texture = textureLoader.load (
     '/textures/door/color.jpg',
-    () =>
-    {
-console.log('load')
-    },
-    () =>
-    {
-console.log('progress')
-    },
-    () =>
-    {
-console.log('error')
-    },
-
-
-    
 )
+const alphaTexture = textureLoader.load (
+    '/textures/door/alpha.jpg',
+)
+const HeightTexture = textureLoader.load (
+    '/textures/door/height.jpg',
+)
+const normalTexture = textureLoader.load (
+    '/textures/door/normal.jpg',
+)
+const ambientOcclusion = textureLoader.load (
+    '/textures/door/ambientOcclusion.jpg',
+)
+const metalNessTexture = textureLoader.load (
+    '/textures/door/metalness.jpg',
+)
+const roughnessTexture = textureLoader.load (
+    '/textures/door/roughness.jpg',
+)
+
 
 
 
