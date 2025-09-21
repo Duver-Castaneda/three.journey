@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 const loadingManager = new THREE.LoadingManager()
-loadingManager.onStart = () => {
+/*loadingManager.onStart = () => {
 console.log('start')
 },
 loadingManager.onLoad = () => {
@@ -13,11 +13,15 @@ loadingManager.onProgress = () => {
 }
 loadingManager.onError = () => {
     console.log('error')
-}
+}*/
 const textureLoader = new THREE.TextureLoader(loadingManager)
 const texture = textureLoader.load (
     '/textures/door/color.jpg',
 )
+
+texture.colorSpace = THREE.SRGBColorSpace
+
+
 const alphaTexture = textureLoader.load (
     '/textures/door/alpha.jpg',
 )
@@ -37,8 +41,13 @@ const roughnessTexture = textureLoader.load (
     '/textures/door/roughness.jpg',
 )
 
-
-
+texture.repeat.x = 2
+texture.repeat.y = 3
+texture.wrapS = THREE.MirroredRepeatWrapping
+texture.wrapT = THREE.MirroredRepeatWrapping
+texture.offset.x = 0.5
+texture.offset.y = 0.5
+texture.rotation = Math.PI / 4
 
 /**
  * Base
