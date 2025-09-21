@@ -1,27 +1,9 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import gsap from 'gsap'
-import GUI from 'lil-gui'
 
 /**
  * Base
  */
-
-
-const Gui = new GUI({
-    width:300,
-    title:'nice debug UI',
-    closeFolders:false
-})
-Gui.hide()
-
-window.addEventListener('keydown', (event) => {
-if(event.key == 'h'){
-        Gui.show(Gui._hidden)}
-
-})
-const debugObject = {}
-
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -31,42 +13,11 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
-
-debugObject.color = '#ed719e'
-
-
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-const material = new THREE.MeshBasicMaterial({ color: debugObject.color, wireframe:true})
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-const cubeTweaks = Gui.addFolder('awesome cube')
-cubeTweaks
- .add(mesh.position, 'y').min(-3).max(3).step(0.01).name('elevation')
-cubeTweaks 
-    .add(mesh, 'visible')
-cubeTweaks  
-     .add(material, 'wireframe')
-cubeTweaks  
-     .addColor(debugObject, 'color').onChange(() => {
-      material.color.set(debugObject.color)
-     })
-
-
-debugObject.spin = ( ) => {
-    gsap.to(mesh.rotation, {y:mesh.rotation.y + Math.PI * 2})
-}
-cubeTweaks.add(debugObject, 'spin')
-debugObject.subDivision = 2
-cubeTweaks .add(debugObject, 'subDivision')     
-    .min(1)
-    .max(20)    
-    .step(1)    
-    .onFinishChange (() => {
-        mesh.geometry = new THREE.BoxGeometry (1,1,1,
-            debugObject.subDivision, debugObject.subDivision, debugObject.subDivision
-        )
-    })
 /**
  * Sizes
  */
@@ -97,7 +48,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 2
+camera.position.z = 1
 scene.add(camera)
 
 // Controls
