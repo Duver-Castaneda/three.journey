@@ -3,14 +3,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 
 const image = new Image()
-
-image.onload = () => {
 const texture = new THREE.Texture(image)
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
-
+texture.colorSpace = THREE.SRGBColorSpace
+image.onload = () => {
+texture.needsUpdate = true
 }
 
 image.src = '/textures/door/color.jpg'
@@ -29,6 +25,10 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({ map:texture })
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 
 /**
  * Sizes
