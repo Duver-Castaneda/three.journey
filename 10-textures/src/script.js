@@ -2,14 +2,25 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 
-const image = new Image()
-const texture = new THREE.Texture(image)
-texture.colorSpace = THREE.SRGBColorSpace
-image.onload = () => {
-texture.needsUpdate = true
-}
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load (
+    '/textures/door/color.jpg',
+    () =>
+    {
+console.log('load')
+    },
+    () =>
+    {
+console.log('progress')
+    },
+    () =>
+    {
+console.log('error')
+    },
 
-image.src = '/textures/door/color.jpg'
+
+    
+)
 
 
 
