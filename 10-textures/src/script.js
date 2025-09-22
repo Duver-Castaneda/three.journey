@@ -41,13 +41,16 @@ const roughnessTexture = textureLoader.load (
     '/textures/door/roughness.jpg',
 )
 
-texture.repeat.x = 2
+/*texture.repeat.x = 2
 texture.repeat.y = 3
 texture.wrapS = THREE.MirroredRepeatWrapping
 texture.wrapT = THREE.MirroredRepeatWrapping
 texture.offset.x = 0.5
 texture.offset.y = 0.5
-texture.rotation = Math.PI / 4
+texture.rotation = Math.PI / 4*/
+//texture.center.x = 0.5
+//texture.center.y = 0.5
+texture.minFilter = THREE.NearestFilter
 
 /**
  * Base
