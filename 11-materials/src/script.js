@@ -38,9 +38,13 @@ matcapTexture.colorSpace =  THREE.SRGBColorSpace
 //const material = new THREE.MeshNormalMaterial()
 //material.flatShading = true
 //material.side = THREE.DoubleSide
-const material = new THREE.MeshMatcapMaterial()
-material.matcap = matcapTexture
-
+//const material = new THREE.MeshMatcapMaterial()
+//const material = new THREE.MeshDepthMaterial()
+//const material = new THREE.MeshLambertMaterial()
+//material.matcap = matcapTexture
+const material = new THREE.MeshPhongMaterial()
+material.shininess = 100
+material.specular = new THREE.Color(0x1188ff)
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),material)
 sphere.position.x = -1.5
@@ -49,6 +53,14 @@ const plane = new THREE.Mesh(new THREE.PlaneGeometry(1,1),material)
 const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3,0.2,16,32),material)
 torus.position.x = 1.5
 scene.add (sphere,plane,torus)
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+scene.add(ambientLight)
+const pointLight = new THREE.PointLight(0xffffff, 30)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
 
 const sizes = {
     width: window.innerWidth,
