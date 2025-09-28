@@ -18,6 +18,27 @@ const scene = new THREE.Scene()
 /**
  * House
  */
+
+
+const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(20,20),
+    new THREE.MeshStandardMaterial()
+)
+floor.rotation.x = - Math.PI * 0.5
+scene.add(floor)
+
+const house = new THREE.Group()
+scene.add(house)
+const walls = new THREE.Mesh(
+
+   new THREE.BoxGeometry(4,2.5,4),
+    new THREE.MeshStandardMaterial()
+)
+house.add(walls)
+
+
+
+
 // Temporary sphere
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(1, 32, 32),
