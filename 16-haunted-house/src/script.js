@@ -75,9 +75,9 @@ roofNormalTexture.wrapS = THREE.RepeatWrapping
 roofColorTexture.colorSpace = THREE.SRGBColorSpace
 
 
-const bushColorTexture = textureLoader.load('./bush/leaves_forest/leaves_forest_ground_diff_1k.jpg')
-const bushARMTexture = textureLoader.load('./bush/leaves_forest/leaves_forest_ground_arm_1k.jpg')
-const bushNormalTexture = textureLoader.load('./bush/leaves_forest/leaves_forest_ground_nor_gl_1k.jpg')
+const bushColorTexture = textureLoader.load('./bush/leaves_forest/leaves_forest_ground_diff_1k.webp')
+const bushARMTexture = textureLoader.load('./bush/leaves_forest/leaves_forest_ground_arm_1k.webp')
+const bushNormalTexture = textureLoader.load('./bush/leaves_forest/leaves_forest_ground_nor_gl_1k.webp')
 
 bushColorTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -373,6 +373,8 @@ sky.material.uniforms['rayleigh'].value = 3
 sky.material.uniforms['mieCoefficient'].value = 0.1
 sky.material.uniforms['mieDirectionalG'].value = 0.95
 sky.material.uniforms['sunPosition'].value.set(0.3, -0.038,-0.95)
+
+scene.fog = new THREE.FogExp2('#02343f', 0.1)
 
 
 /**
