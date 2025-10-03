@@ -15,42 +15,6 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader()
-
-const particleTexture = textureLoader.load('/textures/particles/2.png')
-
-const particleGeometry = new THREE.BufferGeometry()
-
-const count = 5000
-const position = new Float32Array(count * 3)
-const colors = new Float32Array(count * 3)
-for(let i = 0; i < count * 3; i++) {
-    position[i] = (Math.random() - 0.5) * 10
-    colors[i] = Math.random()
-    
-}
- particleGeometry.setAttribute('position', new THREE.BufferAttribute(position,3))
-  particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors,3))
-
-const particleMaterial = new THREE.PointsMaterial()
-particleMaterial.size = 0.1
-particleMaterial.sizeAttenuation = true
-particleMaterial.color = new THREE.Color('#ff88cc')
-particleMaterial.map = particleTexture
-particleMaterial.transparent = true
-particleMaterial.alphaMap = particleTexture
-//particleMaterial.alphaTest= 0.001
-//particleMaterial.depthTest = false
-particleMaterial.depthWrite = false
-particleMaterial.blending = THREE.AdditiveBlending
-particleMaterial.vertexColors = true
-
-const particles = new THREE.Points(particleGeometry,particleMaterial)
-scene.add(particles)
-
-/**
  * Test cube
  */
 /*const cube = new THREE.Mesh(
@@ -58,6 +22,14 @@ scene.add(particles)
     new THREE.MeshBasicMaterial()
 )
 scene.add(cube)*/
+
+//galaxy
+const generateGalaxy = () => {
+    console.log('generate the galaxy')
+}
+
+generateGalaxy()
+
 
 /**
  * Sizes
@@ -87,6 +59,8 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.x = 3
+camera.position.y = 3
 camera.position.z = 3
 scene.add(camera)
 
@@ -111,15 +85,6 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-
-//particles.rotation.y = elapsedTime * 0.2
-for(let i = 0; i < count; i++) {
-    const i3 = i * 3
-    const x = particleGeometry.attributes.position.array[i3]
-    particleGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x)
-}
-
-particleGeometry.attributes.position.needsUpdate = true
 
     // Update controls
     controls.update()
