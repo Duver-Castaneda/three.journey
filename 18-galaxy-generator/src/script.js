@@ -26,8 +26,8 @@ scene.add(cube)*/
 //galaxy
 
 const parameters = {}
-parameters.count = 1000
-parameters.size = 0.02
+parameters.count = 100000
+parameters.size = 0.01
 parameters.radius = 5
 parameters.branches = 3
 
