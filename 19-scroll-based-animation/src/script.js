@@ -38,6 +38,7 @@ const textureLoader = new THREE.TextureLoader()
 const grandientTexture = textureLoader.load('textures/gradients/3.jpg')
 grandientTexture.magFilter = THREE.NearestFilter
 
+grandientTexture.colorSpace = THREE.SRGBColorSpace
 const material = new THREE.MeshToonMaterial({color: parameters.materialColor, gradientMap: grandientTexture})
 
 const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1,0.4,16,60), 
