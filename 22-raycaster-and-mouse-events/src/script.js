@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from 'lil-gui'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 /**
  * Base
@@ -74,6 +75,48 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+const mouse = new THREE.Vector2()
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX / sizes.width * 2 - 1
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+
+})
+
+window.addEventListener('click', () => {
+
+
+
+
+    if(currentIntersect) {
+
+switch(currentIntersect.object) {
+    case object1:  
+    console.log('click on object 1')
+    break
+
+    case object2:  
+    console.log('click on object 2')
+    break
+
+    case object3:  
+    console.log('click on object 3')
+    break
+}
+
+/*
+        if(currentIntersect.object === object1){
+            console.log('click on object 1')
+        } else if(currentIntersect.object === object2){
+            console.log('click on object 2')
+        } if(currentIntersect.object === object3){
+            console.log('click on object 3')
+        }*/
+    }
+})
+
+
+
 /**
  * Camera
  */
@@ -95,11 +138,27 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
+const gltfLoader = new GLTFLoader()
+gltfLoader.load(
+    './models/Duck/glTF-Binary/Duck.glb',
+    (gltf) => {
+        scene.add(gltf.scene)
+    }
+) 
+
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.9)
+scene.add(ambientLight)
+
+
+const directionalLight = new THREE.DirectionalLight('#ffffff', 2.1)
+directionalLight.position.set(1,2,3)
+scene.add(directionalLight)
 /**
  * Animate
  */
 const clock = new THREE.Clock()
-
+let currentIntersect = null
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
@@ -108,14 +167,10 @@ const tick = () =>
     object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
     object3.position.y = Math.sin(elapsedTime * 1.4) * 1.5
 
-const rayOrigin = new THREE.Vector3(-3,0,0)
-const rayDirection = new THREE.Vector3(1,0,0)
-
-rayDirection.normalize()
-
-rayCaster.set(rayOrigin,rayDirection)
+rayCaster.setFromCamera(mouse,camera)
 const objectsToTest = [object1,object2,object3]
 const intersects = rayCaster.intersectObjects(objectsToTest)
+
 for(const object of objectsToTest){
     object.material.color.set('#ff0000')
 }
@@ -123,6 +178,29 @@ for(const object of objectsToTest){
 for(const intersect of intersects){
     intersect.object.material.color.set('#0000ff')
 }
+
+if(intersects.length) {
+  if(currentIntersect == null) {
+    console.log('mouse enter')
+  }
+  currentIntersect = intersects[0]
+} else {
+      if(currentIntersect) {
+    console.log('leave')
+  }
+  currentIntersect = null
+}
+
+/*
+const rayOrigin = new THREE.Vector3(-3,0,0)
+const rayDirection = new THREE.Vector3(1,0,0)
+
+rayDirection.normalize()
+
+rayCaster.set(rayOrigin,rayDirection)
+
+
+*/
 
     // Update controls
     controls.update()
