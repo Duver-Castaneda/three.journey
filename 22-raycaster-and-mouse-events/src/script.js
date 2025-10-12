@@ -138,12 +138,14 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-
+let model = null
 const gltfLoader = new GLTFLoader()
 gltfLoader.load(
     './models/Duck/glTF-Binary/Duck.glb',
     (gltf) => {
-        scene.add(gltf.scene)
+        model = gltf.scene
+        model.position.y = -1.2
+        scene.add(model)
     }
 ) 
 
@@ -190,6 +192,18 @@ if(intersects.length) {
   }
   currentIntersect = null
 }
+
+if(model) {
+const modelIntersects = rayCaster.intersectObject(model)
+console.log(modelIntersects)
+
+if (modelIntersects.length) {
+    model.scale.set(1.2,1.2,1.2)
+} else {
+    model.scale.set(1,1,1)
+}
+}
+
 
 /*
 const rayOrigin = new THREE.Vector3(-3,0,0)
