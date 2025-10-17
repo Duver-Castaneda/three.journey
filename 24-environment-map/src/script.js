@@ -3,10 +3,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-//import {EXRLoader} from 'three/examples/jsm/loaders/EXRLoader.js'
+import {EXRLoader} from 'three/examples/jsm/loaders/EXRLoader.js'
 import {GroundedSkybox} from 'three/addons/objects/GroundedSkybox.js'
 
-//const exrLoader = new EXRLoader()
+const exrLoader = new EXRLoader()
 const gltfLoader = new GLTFLoader()
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 const rgbeLoader = new RGBELoader()
@@ -58,9 +58,9 @@ scene.environment = environmentMap
 
 //EXRLOADER
 
-/*exrLoader.load( '/environmentMaps/.hdr', (environmentMap) => {
+/*exrLoader.load( '/environmentMaps/nvidiaCanvas-4k.exr', (environmentMap) => {
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
-    //scene.background = environmentMap
+    scene.background = environmentMap
     scene.environment = environmentMap
 })*/
 
