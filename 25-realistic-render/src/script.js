@@ -31,7 +31,9 @@ const updateAllMaterials = () =>
     {
         if(child.isMesh)
         {
-            // Activate shadow here
+         //scene.environmentIntensity = global.environmentIntensity
+          child.castShadow = true
+          child.receiveShadow = true
         }
     })
 }
@@ -56,6 +58,25 @@ rgbeLoader.load('/environmentMaps/0/2k.hdr', (environmentMap) =>
     scene.environment = environmentMap
 })
 
+const directionalLight = new THREE.DirectionalLight('#ffffff', 6)
+directionalLight.position.set(-4,6.5,2.5)
+scene.add(directionalLight)
+
+gui.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
+gui.add(directionalLight.position, 'x').min(-10).max(10).step(0.001).name('LightX')
+gui.add(directionalLight.position, 'y').min(-10).max(10).step(0.001).name('LightY')
+gui.add(directionalLight.position, 'z').min(-10).max(10).step(0.001).name('LightZ')
+
+directionalLight.castShadow = true
+gui.add(directionalLight, 'castShadow')
+
+const directionalLightHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+scene.add(directionalLightHelper)
+directionalLight.shadow.camera.far = 15
+directionalLight.shadow.mapSize.set(1024,1024)
+directionalLight.target.position.set(0,4,0)
+//scene.add(directionalLight.target)
+directionalLight.target.updateMatrix()
 /**
  * Models
  */
@@ -111,10 +132,27 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias:true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+
+renderer.toneMapping = THREE.ReinhardToneMapping
+renderer.toneMappingExposure = 3
+gui.add(renderer, 'toneMapping', {
+    no: THREE.NoToneMapping,
+    Linear: THREE.LinearToneMapping,
+    Reinhard: THREE.ReinhardToneMapping,
+    Cineon: THREE.CineonToneMapping,
+     ACESFilmic: THREE.ACESFilmicToneMapping
+})
+gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001)
+
+
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
  * Animate
