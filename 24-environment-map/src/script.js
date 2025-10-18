@@ -100,7 +100,7 @@ const environmentMap = textureLoader.load('/environmentMaps/blockadesLabsSkybox/
         new THREE.TorusGeometry(8,0.5),
         new THREE.MeshBasicMaterial({color: new THREE.Color(10,4,2)})
     )
-
+holydonut.layers.enable(1)
     holydonut.position.y = 3.5
     scene.add(holydonut)
 
@@ -108,6 +108,7 @@ const environmentMap = textureLoader.load('/environmentMaps/blockadesLabsSkybox/
 scene.environment = cubeRenderTarget.texture
 
 const cubeCamera = new THREE.CubeCamera(0.1,100,cubeRenderTarget)
+cubeCamera.layers.set(1)
 /**
  * Torus Knot
  */
