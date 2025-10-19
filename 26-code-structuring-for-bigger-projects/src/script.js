@@ -1,12 +1,11 @@
-// import test from './test'
-import {SphereGeometry} from 'three'
-//import * as THREE from 'three'
-import {oneThing, anotherThing} from './test'
-//test()
-//console.log(THREE)
-anotherThing() 
-console.log(oneThing)
-console.log(SphereGeometry)
+import Robot from './robot'
+import FlyingRobot from './FlyingRobot'
+
+
+const wallE = new Robot('Wall-E',0)
+const ultron = new FlyingRobot('ultron',2)
+const astroBoy = new FlyingRobot('astroboy',2)
+
 // import * as THREE from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 // import GUI from 'lil-gui'
