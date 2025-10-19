@@ -9,6 +9,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
  */
 const gltfLoader = new GLTFLoader()
 const rgbeLoader = new RGBELoader()
+const textureLoader = new THREE.TextureLoader()
 
 /**
  * Base
@@ -68,20 +69,24 @@ gui.add(directionalLight.position, 'y').min(-10).max(10).step(0.001).name('Light
 gui.add(directionalLight.position, 'z').min(-10).max(10).step(0.001).name('LightZ')
 
 directionalLight.castShadow = true
+directionalLight.shadow.normalBias = 0.027
+directionalLight.shadow.bias = -0.004
 gui.add(directionalLight, 'castShadow')
+gui.add(directionalLight.shadow, 'normalBias').min(-0.05).max(0.05).step(0.001)
+gui.add(directionalLight.shadow, 'bias').min(-0.05).max(0.05).step(0.001)
 
-const directionalLightHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-scene.add(directionalLightHelper)
-directionalLight.shadow.camera.far = 15
-directionalLight.shadow.mapSize.set(1024,1024)
+//const directionalLightHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+//scene.add(directionalLightHelper)
+directionalLight.shadow.camera.far = 20
+directionalLight.shadow.mapSize.set(512,512)
 directionalLight.target.position.set(0,4,0)
-//scene.add(directionalLight.target)
+scene.add(directionalLight.target)
 directionalLight.target.updateMatrix()
 /**
  * Models
  */
 // Helmet
-gltfLoader.load(
+/*gltfLoader.load(
     '/models/FlightHelmet/glTF/FlightHelmet.gltf',
     (gltf) =>
     {
@@ -90,8 +95,52 @@ gltfLoader.load(
 
         updateAllMaterials()
     }
-)
+)*/
+//Hamburger
+gltfLoader.load(
+    '/models/hamburger.glb',
+    (gltf) =>
+    {
+        gltf.scene.scale.set(0.4, 0.4, 0.4)
+        scene.add(gltf.scene)
 
+        updateAllMaterials()
+    }
+)
+const floorColorTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_diff_1k.jpg')
+const floorNormalTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_nor_gl_1k.png')
+const floorAORoughnessMetalnessTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg')
+floorColorTexture.colorSpace = THREE.SRGBColorSpace
+const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(8,8),
+    new THREE.MeshStandardMaterial({
+        map:floorColorTexture,
+        normalMap:floorNormalTexture,
+        aoMap: floorAORoughnessMetalnessTexture,
+        roughnessMap: floorAORoughnessMetalnessTexture,
+        metalnessMap:floorAORoughnessMetalnessTexture
+    })
+)
+floor.rotation.x = -Math.PI * 0.5
+scene.add(floor)
+
+const wallColorTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_diff_1k.jpg')
+const wallNormalTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_nor_gl_1k.png')
+const wallAORoughnessMetalnessTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg')
+wallColorTexture.colorSpace = THREE.SRGBColorSpace
+const wall = new THREE.Mesh(
+    new THREE.PlaneGeometry(8,8),
+    new THREE.MeshStandardMaterial({
+        map:wallColorTexture,
+        normalMap: wallNormalTexture,
+        aoMap: wallAORoughnessMetalnessTexture,
+        roughnessMap: wallAORoughnessMetalnessTexture,
+        metalnessMap:wallAORoughnessMetalnessTexture
+    })
+)
+wall.position.y = 4
+wall.position.z = -4
+scene.add(wall)
 /**
  * Sizes
  */
@@ -150,7 +199,7 @@ gui.add(renderer, 'toneMapping', {
 })
 gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001)
 
-
+renderer.useLegacyLights = false
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
