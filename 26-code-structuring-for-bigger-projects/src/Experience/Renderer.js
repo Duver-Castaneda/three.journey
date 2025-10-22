@@ -1,4 +1,4 @@
-import Experience from "../Experience"
+import Experience from "./Experience"
 import * as THREE from 'three'
 export default class Renderer {
     constructor() {
@@ -20,7 +20,7 @@ export default class Renderer {
             antialias: true
   
         })
-        console.log(this.instance)
+
         this.instance.toneMapping = THREE.CineonToneMapping
 this.instance.toneMappingExposure = 1.75
 this.instance.shadowMap.enabled = true

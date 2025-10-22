@@ -2,8 +2,10 @@ import Sizes from './Utils/Sizes'
 import Time from './Utils/Time'
 import Camera from './Camera'
 import * as THREE from 'three'
-import Renderer from './Utils/Renderer'
-
+import Renderer from './Renderer'
+import World from './World/world.js'
+import Resources from './World/Resources.js'
+import Sources from './Sources.js'
 let instance = null
 export default class Experience {
     constructor(canvas) {
@@ -17,13 +19,17 @@ window.experience = this
 
        // console.log('here starts a great experience')
        this.canvas = canvas
-       console.log(this.canvas)
+
        this.scene = new THREE.Scene()
 
        this.sizes = new Sizes()
        this.time = new Time()
+          this.resources = new Resources(Sources)
        this.camera = new Camera()
+
        this.renderer = new Renderer()
+       this.world = new World()
+    
   
         this.sizes.on('resize', () => {
           this.resize()
