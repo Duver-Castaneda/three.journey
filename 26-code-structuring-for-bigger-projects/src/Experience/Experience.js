@@ -6,6 +6,7 @@ import Renderer from './Renderer'
 import World from './World/world.js'
 import Resources from './World/Resources.js'
 import Sources from './Sources.js'
+import Debug from './Utils/Debug.js'
 let instance = null
 export default class Experience {
     constructor(canvas) {
@@ -18,6 +19,7 @@ export default class Experience {
 window.experience = this
 
        // console.log('here starts a great experience')
+       this.debug = new Debug()
        this.canvas = canvas
 
        this.scene = new THREE.Scene()
@@ -52,7 +54,33 @@ this.time.on('tick', () => {
 
     update() {
       this.camera.update()
+      this.world.update()
       this.renderer.update()
+    }
+
+    destroy() {
+        this.sizes.off('sizes')
+        this.time.off('tick')
+
+
+        this.scene.traverse((child) => {
+            if(child instanceof THREE.Mesh) {
+                child.geometry.dispose()
+
+                for(const key in child.material) {
+                    const value = child.material[key]
+                 if(value && typeof value.dispose === 'function') {
+                    value.dispose()
+                 }
+                }
+            }
+        })
+        this.camera.controls.dispose()
+        this.renderer.instance.dispose()
+
+        if(this.debug.active){
+            this.debug.ui.destroy()
+        }
     }
 
 
